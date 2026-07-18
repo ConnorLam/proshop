@@ -4,6 +4,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector } from 'react-redux';
 import logo from '../assets/logo.png';
 
+//useSelector allows you to pull things out of your redux state
+
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
 

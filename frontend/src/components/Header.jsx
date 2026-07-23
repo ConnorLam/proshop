@@ -43,7 +43,7 @@ const Header = () => {
             <Nav className="ms-auto">
               <LinkContainer to={'/cart'}>
                 <Nav.Link>
-                  <FaShoppingCart />
+                  <FaShoppingCart />{' '}
                   Cart
                   {cartItems.length > 0 && (
                     <Badge pill bg="success" style={{ marginLeft: '5px' }}>

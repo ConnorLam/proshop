@@ -17,20 +17,22 @@ import ShippingScreen from './screens/ShippingScreen.jsx';
 import PaymentScreen from './screens/PaymentScreen.jsx';
 import ProfileScreen from './screens/ProfileScreen.jsx';
 import PlaceOrderScreen from './screens/PlaceOrderScreen.jsx';
+import OrderScreen from './screens/OrderScreen.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route index={true} path="/" element={<HomeScreen />}></Route>
-      <Route path="/product/:id" element={<ProductScreen />}></Route>
-      <Route path="/cart" element={<CartScreen />}></Route>
-      <Route path="/login" element={<LoginScreen />}></Route>
-      <Route path="/register" element={<RegisterScreen />}></Route>
+      <Route index={true} path="/" element={<HomeScreen />}/>
+      <Route path="/product/:id" element={<ProductScreen />}/>
+      <Route path="/cart" element={<CartScreen />}/>
+      <Route path="/login" element={<LoginScreen />}/>
+      <Route path="/register" element={<RegisterScreen />}/>
       <Route path="" element={<PrivateRoute />}>
-        <Route path="/shipping" element={<ShippingScreen />}></Route>
-        <Route path="/payment" element={<PaymentScreen />}></Route>
-        <Route path='/placeorder' element={<PlaceOrderScreen />}></Route>
-        <Route path='/profile' element={<ProfileScreen />}></Route>
+        <Route path="/shipping" element={<ShippingScreen />}/>
+        <Route path="/payment" element={<PaymentScreen />}/>
+        <Route path='/placeorder' element={<PlaceOrderScreen />}/>
+        <Route path='/profile' element={<ProfileScreen />}/>
+        <Route path='/order/:id' element={<OrderScreen />}/>
       </Route>
     </Route>
   )

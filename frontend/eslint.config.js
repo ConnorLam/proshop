@@ -18,8 +18,8 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     rules: {
-      "no-unused-vars": "off", // Stops errors for unused variables
-      "no-undef": "off", // Stops errors for undefined variables
+      "no-unused-vars": "warn", // Stops errors for unused variables
+      "no-undef": "error", // Stops errors for undefined variables
       "react-refresh/only-export-components": "off", // Stops Vite Fast Refresh warnings
     },
   },

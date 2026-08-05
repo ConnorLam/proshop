@@ -47,7 +47,7 @@ function ProductScreen() {
               <ListGroup.Item>
                 <Rating value={product.rating} text={`${product.numReviews} reviews`} />
               </ListGroup.Item>
-              <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
+              <ListGroup.Item>Price: ${product.price.toFixed(2)}</ListGroup.Item>
               <ListGroup.Item>Descripton: {product.description}</ListGroup.Item>
             </ListGroup>
           </Col>
@@ -58,7 +58,7 @@ function ProductScreen() {
                   <Row>
                     <Col>Price:</Col>
                     <Col>
-                      <strong>${product.price}</strong>
+                      <strong>${product.price.toFixed(2)}</strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>

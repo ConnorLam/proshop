@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import Loader from './Loader';
 import FormContainer from './FormContainer';
 
-const ProductEditForm = ({ product, updateProduct, loadingUpdate }) => {
+const ProductEditForm = ({ product, updateProduct, loadingUpdate, uploadProductImage, loadingUpload }) => {
   const navigate = useNavigate();
 
   const [name, setName] = useState(product.name);
@@ -38,6 +38,19 @@ const ProductEditForm = ({ product, updateProduct, loadingUpdate }) => {
     }
   };
 
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+    formData.append('image', e.target.files[0]);
+    try {
+      const res = await uploadProductImage(formData).unwrap();
+      toast.success(res.message);
+      console.log(res.image)
+      setImage(res.image);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
   return (
     <FormContainer>
       <h1>Edit Product</h1>
@@ -47,37 +60,70 @@ const ProductEditForm = ({ product, updateProduct, loadingUpdate }) => {
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="name" className="my-2">
           <Form.Label>Name</Form.Label>
-          <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <Form.Control type="text" placeholder="Enter Name" value={name} onChange={(e) => setName(e.target.value)} />
         </Form.Group>
 
         <Form.Group controlId="price" className="my-2">
           <Form.Label>Price</Form.Label>
-          <Form.Control type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} />
+          <Form.Control
+            type="number"
+            step="0.01"
+            placeholder="Enter Price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
         </Form.Group>
 
         <Form.Group controlId="image" className="my-2">
           <Form.Label>Image</Form.Label>
-          <Form.Control type="text" value={image} onChange={(e) => setImage(e.target.value)} />
+          <Form.Control
+            type="text"
+            value={image}
+            placeholder="Enter Image URL"
+            onChange={(e) => setImage(e.target.value)}
+          />
+          <Form.Control type="file" label="Choose File" onChange={uploadFileHandler}></Form.Control>
         </Form.Group>
 
         <Form.Group controlId="brand" className="my-2">
           <Form.Label>Brand</Form.Label>
-          <Form.Control type="text" value={brand} onChange={(e) => setBrand(e.target.value)} />
+          <Form.Control
+            type="text"
+            placeholder="Enter Brand"
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}
+          />
         </Form.Group>
 
         <Form.Group controlId="countInStock" className="my-2">
           <Form.Label>Count In Stock</Form.Label>
-          <Form.Control type="number" value={countInStock} onChange={(e) => setCountInStock(e.target.value)} />
+          <Form.Control
+            type="number"
+            placeholder="Enter Count In Stock"
+            value={countInStock}
+            onChange={(e) => setCountInStock(e.target.value)}
+          />
         </Form.Group>
 
         <Form.Group controlId="category" className="my-2">
           <Form.Label>Category</Form.Label>
-          <Form.Control type="text" value={category} onChange={(e) => setCategory(e.target.value)} />
+          <Form.Control
+            type="text"
+            value={category}
+            placeholder="Enter Category"
+            onChange={(e) => setCategory(e.target.value)}
+          />
         </Form.Group>
 
         <Form.Group controlId="description" className="my-2">
           <Form.Label>Description</Form.Label>
-          <Form.Control as="textarea" rows={4} value={description} onChange={(e) => setDescription(e.target.value)} />
+          <Form.Control
+            as="textarea"
+            rows={4}
+            value={description}
+            placeholder="Enter Description"
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </Form.Group>
 
         <Button type="submit" variant="primary" className="my-2" disabled={loadingUpdate}>

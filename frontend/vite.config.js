@@ -14,6 +14,9 @@ export default defineConfig({
         // Removes '/api' before sending the request to localhost:5000
         // rewrite: (path) => path.replace(/^\/api/, ""),
       },
+      '/uploads':{
+        target: 'http://localhost:5000'
+      }
     },
   },
 })

@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
-import { useGetProductDetailsQuery, useUpdateProductMutation } from '../../slices/productsApiSlice';
+import { useGetProductDetailsQuery, useUpdateProductMutation, useUploadProductImageMutation } from '../../slices/productsApiSlice';
 import ProductEditForm from '../../components/ProductEditForm';
 
 const ProductEditScreen = () => {
@@ -10,6 +10,8 @@ const ProductEditScreen = () => {
   const { data: product, isLoading, error } = useGetProductDetailsQuery(productId);
 
   const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
+
+  const [uploadProductImage, {isLoading: loadingUpload}] = useUploadProductImageMutation()
 
   if (isLoading) {
     return <Loader />;
@@ -30,6 +32,8 @@ const ProductEditScreen = () => {
         product={product}
         updateProduct={updateProduct}
         loadingUpdate={loadingUpdate}
+        uploadProductImage={uploadProductImage}
+        loadingUpload={loadingUpload}
       />
     </>
   );

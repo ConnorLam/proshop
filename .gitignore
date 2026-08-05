@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 .env
 .prettier*
+
+uploads/*
+!uploads/.gitkeep

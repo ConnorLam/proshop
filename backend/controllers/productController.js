@@ -1,10 +1,10 @@
-import asynchHandler from '../middleware/asyncHandler.js';
+import asyncHandler from '../middleware/asyncHandler.js';
 import Product from '../models/productModel.js';
 
 // @desc   Fetch all products
 // @route  GET /api/products
 // @access Public
-const getProducts = asynchHandler(async (req, res) => {
+const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({});
   res.json(products);
 });
@@ -12,7 +12,7 @@ const getProducts = asynchHandler(async (req, res) => {
 // @desc   Fetch a products
 // @route  GET /api/products/:id
 // @access Public
-const getProductById = asynchHandler(async (req, res) => {
+const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {
@@ -26,7 +26,7 @@ const getProductById = asynchHandler(async (req, res) => {
 // @desc   Create a product
 // @route  POST /api/products
 // @access Private/Admin
-const createProduct = asynchHandler(async (req, res) => {
+const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: 'Sample Name',
     price: 0,
@@ -46,7 +46,7 @@ const createProduct = asynchHandler(async (req, res) => {
 // @desc   Update a product
 // @route  PUT /api/products/:id
 // @access Private/Admin
-const updateProduct = asynchHandler(async (req, res) => {
+const updateProduct = asyncHandler(async (req, res) => {
   const { name, price, description, image, brand, category, countInStock } = req.body;
 
   const product = await Product.findById(req.params.id);
@@ -71,7 +71,7 @@ const updateProduct = asynchHandler(async (req, res) => {
 // @desc   Delete a product
 // @route  DELETE /api/products/:id
 // @access Private/Admin
-const deleteProduct = asynchHandler(async (req, res) => {
+const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {

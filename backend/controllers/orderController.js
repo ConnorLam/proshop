@@ -1,10 +1,10 @@
-import asynchHandler from '../middleware/asyncHandler.js';
+import asyncHandler from '../middleware/asyncHandler.js';
 import Order from '../models/orderModel.js';
 
 // @desc   Create new order
 // @route  POST /api/order
 // @access Private
-const addOrderItems = asynchHandler(async (req, res) => {
+const addOrderItems = asyncHandler(async (req, res) => {
   const { orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice, shippingPrice, totalPrice } = req.body;
 
   if (orderItems && orderItems.length === 0) {
@@ -35,7 +35,7 @@ const addOrderItems = asynchHandler(async (req, res) => {
 // @desc   Get logged in users orders
 // @route  GET /api/orders/myorders
 // @access Private
-const getMyOrders = asynchHandler(async (req, res) => {
+const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
   res.status(200).json(orders);
 });
@@ -43,7 +43,7 @@ const getMyOrders = asynchHandler(async (req, res) => {
 // @desc   Get order by id
 // @route  GET /api/orders/:id
 // @access Private
-const getOrderById = asynchHandler(async (req, res) => {
+const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate('user', 'name email');
 
   if (order) {
@@ -57,7 +57,7 @@ const getOrderById = asynchHandler(async (req, res) => {
 // @desc   Update order to paid
 // @route  PUT /api/orders/:id/pay
 // @access Private
-const updateOrderToPaid = asynchHandler(async (req, res) => {
+const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
   if (order) {
@@ -82,7 +82,7 @@ const updateOrderToPaid = asynchHandler(async (req, res) => {
 // @desc   Update order to delivered
 // @route  PUT /api/orders/:id/deliver
 // @access Private / Admin
-const updateOrderToDelivered = asynchHandler(async (req, res) => {
+const updateOrderToDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
   if (order) {
@@ -101,7 +101,7 @@ const updateOrderToDelivered = asynchHandler(async (req, res) => {
 // @desc   Get all orders
 // @route  GET /api/orders
 // @access Private / Admin
-const getOrders = asynchHandler(async (req, res) => {
+const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate('user', 'id name')
   res.status(200).json(orders)
 });

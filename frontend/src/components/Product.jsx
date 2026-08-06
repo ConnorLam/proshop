@@ -6,7 +6,7 @@ function Product({ product }) {
   return (
     <Link to={`/product/${product._id}`}>
       <Card className="my-3 p-3 rounded">
-        <Card.Img src={product.image} variant="top"></Card.Img>
+        <Card.Img className='product-image' src={product.image} variant="top"></Card.Img>
         <Card.Body>
           <Card.Title as="div" className="product-title">
             <strong>{product.name}</strong>

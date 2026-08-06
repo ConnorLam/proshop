@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import Loader from './Loader';
 import FormContainer from './FormContainer';
 
-const ProductEditForm = ({ product, updateProduct, loadingUpdate, uploadProductImage, loadingUpload }) => {
+const ProductEditForm = ({ product, updateProduct, loadingUpdate, uploadProductImage }) => {
   const navigate = useNavigate();
 
   const [name, setName] = useState(product.name);

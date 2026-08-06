@@ -25,8 +25,6 @@ function ProductScreen() {
     navigate('/cart')
   }
 
-  console.log(product?.image)
-
   return (
     <>
       <Link className="btn btn-light my-3" to={'/'}>

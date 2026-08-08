@@ -119,9 +119,9 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc   Update a product
+// @desc   Update a product review
 // @route  PUT /api/products/:id/reviews
-// @access Private/Admin
+// @access Private
 const updateProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body;
 
@@ -157,4 +157,46 @@ const updateProductReview = asyncHandler(async (req, res) => {
   });
 });
 
-export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview, updateProductReview };
+// @desc   Delete a product review
+// @route  DELETE /api/products/:id/reviews/:reviewId
+// @access Private
+const deleteProductReview = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+
+  const review = product.reviews.id(req.params.reviewId);
+
+  if (!review) {
+    res.status(404);
+    throw new Error('Review not found');
+  }
+
+  if (review.user.toString() !== req.user._id.toString()) {
+    res.status(403);
+    throw new Error('Not authorized to delete this review');
+  }
+
+  product.reviews.pull(req.params.reviewId);
+
+  product.numReviews = product.reviews.length;
+
+  product.rating =
+    product.reviews.length === 0
+      ? 0
+      : product.reviews.reduce(
+          (acc, review) => acc + review.rating,
+          0
+        ) / product.reviews.length;
+
+  await product.save();
+
+  res.status(200).json({
+    message: 'Review deleted',
+  });
+});
+
+export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview, updateProductReview, deleteProductReview };

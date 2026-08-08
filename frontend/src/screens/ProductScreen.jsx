@@ -12,10 +12,11 @@ import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
   useUpdateReviewMutation,
+  useDeleteReviewMutation,
 } from '../slices/productsApiSlice';
 
 import { addToCart } from '../slices/cartSlice';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 function ProductScreen() {
   const { id: productId } = useParams();
@@ -41,6 +42,8 @@ function ProductScreen() {
   const [createReview, { isLoading: loadingProductReview }] = useCreateReviewMutation();
 
   const [updateReview, { isLoading: loadingUpdateReview }] = useUpdateReviewMutation();
+
+  const [deleteReview, { isLoading: loadingDeleteReview }] = useDeleteReviewMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -112,6 +115,21 @@ function ProductScreen() {
       refetch();
     } catch (err) {
       toast.error(err?.data?.message || err.error || 'Review failed to update');
+    }
+  };
+
+  const deleteReviewHandler = async (reviewId) => {
+    if (window.confirm('Are you sure you want to delete this review?')) {
+      try {
+        await deleteReview({
+          productId,
+          reviewId,
+        }).unwrap();
+
+        toast.success('Review deleted');
+      } catch (err) {
+        toast.error(err?.data?.message || err.error || 'Unable to delete review');
+      }
     }
   };
 
@@ -224,9 +242,20 @@ function ProductScreen() {
                 <p>{review.comment}</p>
 
                 {userInfo && review.user?.toString() === userInfo._id.toString() && (
-                  <Button variant="light" size="sm" onClick={() => editReviewHandler(review)}>
-                    <FaEdit />
-                  </Button>
+                  <>
+                    <Button variant="light" size="sm" onClick={() => editReviewHandler(review)}>
+                      <FaEdit />
+                    </Button>
+                    <Button
+                      variant="light"
+                      size="sm"
+                      className="ms-2"
+                      disabled={loadingDeleteReview}
+                      onClick={() => deleteReviewHandler(review._id)}
+                    >
+                      <FaTrash />
+                    </Button>
+                  </>
                 )}
               </ListGroup.Item>
             ))}

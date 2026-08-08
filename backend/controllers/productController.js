@@ -95,7 +95,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
     if (alreadyReviewed) {
       res.status(400);
-      throw new Error('Product already reviewd');
+      throw new Error('Product already reviewed');
     }
 
     const review = {
@@ -119,4 +119,42 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview };
+// @desc   Update a product
+// @route  PUT /api/products/:id/reviews
+// @access Private/Admin
+const updateProductReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body;
+
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(404);
+    throw new Error('Resource not found');
+  }
+
+  const review = product.reviews.id(req.params.reviewId);
+
+  if (!review) {
+    res.status(404);
+    throw new Error('Review not found');
+  }
+
+  if (review.user.toString() !== req.user._id.toString()) {
+    res.status(403);
+    throw new Error('Not authorized to update this review');
+  }
+
+  review.rating = Number(rating);
+  review.comment = comment;
+
+  product.rating = product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length;
+
+  const updatedProduct = await product.save();
+
+  res.status(200).json({
+    message: 'Review updated',
+    product: updatedProduct,
+  });
+});
+
+export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview, updateProductReview };

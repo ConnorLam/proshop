@@ -5,6 +5,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import ProductCarousel from '../components/ProductCarousel';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
+import Meta from '../components/Meta';
 import Paginate from '../components/Paginate';
 
 function HomeScreen() {
@@ -13,7 +14,13 @@ function HomeScreen() {
 
   return (
     <>
-    {!keyword ? <ProductCarousel /> : <Link to='/' className='btn btn-light mb-4'>Go back</Link>}
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to="/" className="btn btn-light mb-4">
+          Go back
+        </Link>
+      )}
       {isLoading ? (
         <Loader />
       ) : error ? (

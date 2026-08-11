@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import Loader from './Loader';
 import FormContainer from './FormContainer';
 
-const ProductEditForm = ({ product, updateProduct, loadingUpdate, uploadProductImage }) => {
+const ProductEditForm = ({ product, updateProduct, loadingUpdate, uploadProductImage, loadingUpload }) => {
   const navigate = useNavigate();
 
   const [name, setName] = useState(product.name);
@@ -44,7 +44,7 @@ const ProductEditForm = ({ product, updateProduct, loadingUpdate, uploadProductI
     try {
       const res = await uploadProductImage(formData).unwrap();
       toast.success(res.message);
-      console.log(res.image)
+      console.log(res.image);
       setImage(res.image);
     } catch (err) {
       toast.error(err?.data?.message || err.error);
@@ -84,6 +84,7 @@ const ProductEditForm = ({ product, updateProduct, loadingUpdate, uploadProductI
           />
           <Form.Control type="file" label="Choose File" onChange={uploadFileHandler}></Form.Control>
         </Form.Group>
+        {loadingUpload && <Loader />}
 
         <Form.Group controlId="brand" className="my-2">
           <Form.Label>Brand</Form.Label>

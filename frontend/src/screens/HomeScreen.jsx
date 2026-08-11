@@ -5,7 +5,6 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import ProductCarousel from '../components/ProductCarousel';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
-import Meta from '../components/Meta';
 import Paginate from '../components/Paginate';
 
 function HomeScreen() {

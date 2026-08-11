@@ -2601,7 +2601,7 @@ textarea.form-control-lg {
 .form-floating {
   position: relative;
 }
-.form-floating::before:not(.form-control:disabled) {
+.form-floating:not(:has(.form-control:disabled))::before {
   position: absolute;
   top: var(--bs-border-width);
   left: var(--bs-border-width);

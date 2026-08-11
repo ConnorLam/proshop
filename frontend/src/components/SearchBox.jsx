@@ -1,14 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Form, Button, ListGroup, Image } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import { useGetProductsQuery } from '../slices/productsApiSlice';
 
 const SearchBox = () => {
   const navigate = useNavigate();
 
-  const [keyword, setKeyword] = useState('');
+  const { keyword: urlKeyword } = useParams();
+
+  const [keyword, setKeyword] = useState(urlKeyword || '');
+
   const [debouncedKeyword, setDebouncedKeyword] = useState('');
 
+  const [showResults, setShowResults] = useState(false);
+
+  // Debounce search by 300ms
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedKeyword(keyword.trim());
@@ -37,43 +44,41 @@ const SearchBox = () => {
     } else {
       navigate('/');
     }
+
+    setShowResults(false);
   };
 
   const selectProductHandler = (productId) => {
     navigate(`/product/${productId}`);
 
-    setKeyword('');
-    setDebouncedKeyword('');
+    setShowResults(false);
   };
 
   return (
-    <div className="position-relative" style={{ width: '400px' }}>
-      <Form onSubmit={submitHandler} className="d-flex">
+    <div className="position-relative w-100">
+      <Form onSubmit={submitHandler} className="d-flex w-100">
         <Form.Control
           type="text"
           name="q"
           value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
           placeholder="Search Products..."
+          onChange={(e) => {
+            setKeyword(e.target.value);
+            setShowResults(true);
+          }}
         />
 
-        <Button type="submit" variant="outline-light" className="ms-2">
+        <Button type="submit" variant="outline-light" className="ms-2 flex-shrink-0">
           Search
         </Button>
       </Form>
 
-      {debouncedKeyword.length >= 2 && (
-        <ListGroup
-          className="position-absolute w-100"
-          style={{
-            zIndex: 1000,
-            top: '100%',
-          }}
-        >
+      {showResults && debouncedKeyword.length >= 2 && (
+        <ListGroup className="search-results">
           {isLoading ? (
             <ListGroup.Item>Searching...</ListGroup.Item>
           ) : data?.products?.length > 0 ? (
-            data.products.map((product) => (
+            data.products.slice(0, 5).map((product) => (
               <ListGroup.Item
                 key={product._id}
                 action
@@ -83,15 +88,19 @@ const SearchBox = () => {
                 <Image
                   src={product.image}
                   alt={product.name}
-                  width="50"
-                  height="50"
+                  width={50}
+                  height={50}
+                  className="me-2"
                   style={{
                     objectFit: 'contain',
-                    marginRight: '10px',
                   }}
                 />
 
-                <span>{product.name}</span>
+                <div>
+                  <div>{product.name}</div>
+
+                  <small>${Number(product.price).toFixed(2)}</small>
+                </div>
               </ListGroup.Item>
             ))
           ) : (

@@ -55,7 +55,7 @@ const SearchBox = () => {
   };
 
   return (
-    <div className="position-relative w-100">
+    <div className="position-relative w-100" style={{ maxWidth: '500px' }}>
       <Form onSubmit={submitHandler} className="d-flex w-100">
         <Form.Control
           type="text"
@@ -91,14 +91,11 @@ const SearchBox = () => {
                   width={50}
                   height={50}
                   className="me-2"
-                  style={{
-                    objectFit: 'contain',
-                  }}
+                  style={{ objectFit: 'contain' }}
                 />
 
                 <div>
                   <div>{product.name}</div>
-
                   <small>${Number(product.price).toFixed(2)}</small>
                 </div>
               </ListGroup.Item>

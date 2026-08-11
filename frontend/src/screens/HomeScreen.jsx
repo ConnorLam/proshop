@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import Product from '../components/Product';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import ProductCarousel from '../components/ProductCarousel';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
 import Paginate from '../components/Paginate';
 
@@ -12,7 +13,7 @@ function HomeScreen() {
 
   return (
     <>
-    {keyword && <Link to='/' className='btn btn-light mb-4'>Go back</Link>}
+    {!keyword ? <ProductCarousel /> : <Link to='/' className='btn btn-light mb-4'>Go back</Link>}
       {isLoading ? (
         <Loader />
       ) : error ? (

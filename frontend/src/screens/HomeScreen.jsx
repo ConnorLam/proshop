@@ -14,7 +14,10 @@ function HomeScreen() {
   return (
     <>
       {!keyword ? (
-        <ProductCarousel />
+        <>
+          <h1>Top Rated Products</h1>
+          <ProductCarousel />
+        </>
       ) : (
         <Link to="/" className="btn btn-light mb-4">
           Go back
@@ -26,7 +29,7 @@ function HomeScreen() {
         <Message variant="danger">{error?.data?.message || error.error}</Message>
       ) : (
         <>
-          <h1>Latest Products</h1>
+          <h2>All Products</h2>
           <Row>
             {data.products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>

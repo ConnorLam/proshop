@@ -9,6 +9,7 @@ import { logout } from '../slices/authSlice';
 
 import SearchBox from './SearchBox';
 import logo from '../assets/logo.png';
+import { resetCart } from '../slices/cartSlice';
 
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
@@ -24,6 +25,7 @@ const Header = () => {
       await logoutApiCall().unwrap();
 
       dispatch(logout());
+      dispatch(resetCart())
       navigate('/');
     } catch (err) {
       console.log(err);
